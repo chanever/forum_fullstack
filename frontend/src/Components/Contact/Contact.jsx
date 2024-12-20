@@ -53,7 +53,7 @@ const Contact = () => {
           <div className="bg-white shadow rounded-xl overflow-hidden">
             <iframe
               title="Company Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.909641212332!2d127.06283101550813!3d37.50782763488916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3f6ef4e5f5b%3A0x8474efed5e30934b!2z7ISc7Jq47ZWZ6rWQ64-E!5e0!3m2!1sko!2skr!4v1632324567871!5m2!1sko!2skr"
+              src="https://map.naver.com/p/search/%EC%8B%A0%EC%9A%B0%EC%A0%84%EA%B8%B0%20%EC%B2%9C%EC%95%88?c=15.00,0,0,0,dh"
               width="100%"
               height="400"
               frameBorder="0"
