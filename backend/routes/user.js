@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const axios = require('axios');
+
 
 router.post('/signup', async (req, res) => {
   try {
@@ -29,7 +32,7 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    
+
     const user = await User.findOne({ username }).select('+password');
     if (!user) {
       return res.status(401).json({ message: '사용자를 찾을 수 없습니다.' });
@@ -43,7 +46,7 @@ router.post('/login', async (req, res) => {
     if (!isValidPassword) {
       user.failedLoginAttempts += 1;
       user.lastLoginAttempt = new Date();
-      
+
       if (user.failedLoginAttempts >= 5) {
         user.isActive = false;
         await user.save();
@@ -53,22 +56,46 @@ router.post('/login', async (req, res) => {
       await user.save();
       return res.status(401).json({ 
         message: '비밀번호가 일치하지 않습니다.',
-        remainingAttempts: 5 - user.failedLoginAttempts
+        remainingAttempts: 5 - user.failedLoginAttempts 
       });
     }
 
     user.failedLoginAttempts = 0;
     user.lastLoginAttempt = new Date();
+
+    try {
+      const response = await axios.get('https://api.ipify.org?format=json');
+      const ipAddress = response.data.ip;
+      user.ipAddress = ipAddress; 
+    } catch (ipError) {
+      console.error('IP 주소를 가져오는 중 오류 발생:', ipError.message);
+    }
+
     await user.save();
+
+    const token = jwt.sign(
+      { userId: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000
+    });
 
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
-    
-    res.json(userWithoutPassword);
+
+    res.json({ user: userWithoutPassword });
   } catch (error) {
+    console.error('서버 오류:', error.message);
     res.status(500).json({ message: '서버 오류가 발생했습니다.' });
   }
 });
+
 
 router.delete('/profile/:userId', async (req, res) => {
   try {

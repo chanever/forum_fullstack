@@ -53,6 +53,10 @@ const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path: "/admin",
+    element: <Admin />,
+  }
 ]);
 
 function App() {

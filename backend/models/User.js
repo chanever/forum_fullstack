@@ -25,13 +25,17 @@ const userSchema = new mongoose.Schema(
     lastLoginAttempt: {
       type: Date
     },
+    ipAddress: {
+      type: String,
+      trim: true
+    },
     createdAt: {
       type: Date,
       default: Date.now,
     },
   },
 
-  
+
   {
     timestamps: true,
   }
