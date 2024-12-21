@@ -70,7 +70,7 @@ const Leadership = () => {
         transition={{ duration: 0.8 }}
         className="text-center mb-16"
       >
-        <h1 className="text-5xl font-bold text-gray-800 mb-4">임원진 소개</h1>
+        <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">임원진 소개</h1>
         <p className="text-xl text-gray-600">혁신과 성장을 이끄는 신우전기의 리더십</p>
       </motion.div>
 

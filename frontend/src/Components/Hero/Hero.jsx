@@ -13,10 +13,10 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-gray-900 leading-tight mb-6 lg:mb-12">
               태양광 설비 전문가와 함께
               <motion.span 
-                className="block text-blue-600 mt-2"
+                className="block text-blue-600 mt-2 lg:mt-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
@@ -24,7 +24,7 @@ const Hero = () => {
                 미래를 만들어갑니다
               </motion.span>
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+            <p className="text-lg sm:text-xl text-gray-800 text-semibold mb-8 max-w-2xl mx-auto lg:mx-0">
               안전하고 효율적인 태양광 설비 설치부터 유지보수까지, 전문가들이
               함께합니다
             </p>

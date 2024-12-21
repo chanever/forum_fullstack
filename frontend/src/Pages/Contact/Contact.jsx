@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    status: 'in progress'
+  });
+  
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/contacts`, formData);
+      alert('문의가 성공적으로 접수되었습니다.');
+      setFormData({ name: '', email: '', phone: '', message: '', status: 'in progress' });
+    } catch (error) {
+      console.error('Error:', error);
+      alert('문의 접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-32">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -11,7 +39,7 @@ const Contact = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-5xl lg:text-5xl font-bold text-gray-900 mb-6">문의하기</h1>
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">문의하기</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             태양광 설비 설치부터 유지보수까지, 전문가와 상담하세요.
             24시간 내에 답변드리겠습니다.
@@ -24,37 +52,53 @@ const Contact = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <form className="bg-white rounded-2xl shadow-xl p-8">
+            <form className="bg-white rounded-2xl shadow-xl p-8" onSubmit={handleSubmit}>
               <div className="space-y-6">
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">이름</label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
                     placeholder="홍길동"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">이메일</label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
                     placeholder="example@email.com"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">연락처</label>
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
                     placeholder="010-1234-5678"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">문의 내용</label>
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors h-40"
                     placeholder="문의하실 내용을 자세히 적어주세요."
+                    required
                   ></textarea>
                 </div>
                 <button
@@ -99,9 +143,9 @@ const Contact = () => {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               <iframe
                 title="Company Location"
-                src="https://map.naver.com/p/search/%EC%8B%A0%EC%9A%B0%EC%A0%84%EA%B8%B0%20%EC%B2%9C%EC%95%88?c=15.00,0,0,0,dh"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25512.18472157322!2d127.18228540787578!3d36.93761547130345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b31f2d016bc07%3A0x34216a2951fa94d4!2sYeongok-gil%2C%20Ipjang-myeon%2C%20Seobuk-gu%2C%20Cheonan-si%2C%20Chungcheongnam-do!5e0!3m2!1sen!2skr!4v1734695969025!5m2!1sen!2skr"
                 width="100%"
-                height="300"
+                height="400"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"

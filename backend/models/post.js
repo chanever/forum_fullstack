@@ -27,6 +27,14 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    viewLogs: [{
+      ip: String,
+      userAgent: String,
+      timestamp: {
+        type: Date,
+        default: Date.now
+      }
+    }],
     updatedAt: {
       type: Date,
       default: Date.now,
